@@ -1,0 +1,1 @@
+package com.hzmoyan;import org.springframework.boot.SpringApplication;import org.springframework.boot.autoconfigure.SpringBootApplication;@SpringBootApplicationpublic class ZhijiangReservationSystemApplication {    public static void main(String[] args) {        SpringApplication.run(ZhijiangReservationSystemApplication.class, args);    }}

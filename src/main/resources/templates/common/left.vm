@@ -1,0 +1,67 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li>
+                <a href="/index"><i class="fa fa-dashboard fa-fw"></i> 主页</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 日志记录<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/logs/system">系统访问日志记录</a>
+                    </li>
+                    <li>
+                        <a href="morris.html">用户操作日志记录</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-users fa-fw"></i> 用户权限<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="flot.html">基本信息</a>
+                    </li>
+                    <li>
+                        <a href="morris.html">权限更改</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-tags fa-fw"></i> 场地信息<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="flot.html">场地展示</a>
+                    </li>
+                    <li>
+                        <a href="morris.html">场地更改</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="/index"><i class="fa fa-edit fa-fw"></i> 场地申请</a>
+            </li>
+            <li>
+                <a href="/index"><i class="fa fa-check fa-fw"></i> 场地审批</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- /.navbar-static-side -->
+</nav>
+
+<div id="page-wrapper">
