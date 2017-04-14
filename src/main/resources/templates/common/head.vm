@@ -42,6 +42,11 @@
     <!-- jQuery -->
     <script src="/vendor/jquery/jquery.min.js"></script>
 
+    <!-- jQuery Validate-->
+    <script src="/vendor/jquery/validate/jquery.validate.min.js"></script>
+    <script src="/vendor/jquery/validate/messages_zh.min.js"></script>
+
+
     <!-- Bootstrap Core JavaScript -->
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
@@ -49,9 +54,9 @@
     <script src="/vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="/vendor/raphael/raphael.min.js"></script>
-    <script src="/vendor/morrisjs/morris.min.js"></script>
-    <script src="/data/morris-data.js"></script>
+##    <script src="/vendor/raphael/raphael.min.js"></script>
+##    <script src="/vendor/morrisjs/morris.min.js"></script>
+##    <script src="/data/morris-data.js"></script>
 
     <!-- DataTables JavaScript -->
     <script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>

@@ -1,13 +1,15 @@
-#set($layout='layout/blank.vm')
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">日志记录</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                #if($type eq "all")
-                    所有场地列表
-                #else
-                    ${authUtils.getAuthUser().department}场地列表
-                #end
+                日志详情(近一个月)
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -15,26 +17,28 @@
                     <thead>
                     <tr>
                         <th>序号</th>
-                        <th>场地名称</th>
-                        <th>所属部门</th>
-                        <th>负责人</th>
-                        <th>联系方式</th>
-                        <th>操作</th>
+                        <th>级别</th>
+                        <th>用户名</th>
+                        <th>描述</th>
+                        <th>时间</th>
                     </tr>
                     </thead>
                     <tbody>
                         #set($i = 0)
-                        #foreach($place in $placeList)
+                        #foreach($log in $logList)
                             #set($i = $i + 1)
                         <tr class="odd gradeX">
                             <td>$i</td>
-                            <td>$place.placeName</td>
-                            <td>$place.department</td>
-                            <td class="center">$place.principal</td>
-                            <td class="center">$place.mobile</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary">借用情况</button>
+                                #if($log.level == "system")
+                                    系统级
+                                #else
+                                    用户级
+                                #end
                             </td>
+                            <td>$log.userName</td>
+                            <td>$log.desc</td>
+                            <td>$date.format("yyyy-MM-dd HH:mm:ss", $log.gmtCreate)</td>
                         </tr>
                         #end
                     </tbody>

@@ -1,5 +1,6 @@
 package com.hzmoyan.dao;
 
+import com.hzmoyan.javabean.po.TPlace;
 import com.hzmoyan.javabean.po.TUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,9 +17,7 @@ import java.util.Map;
  */
 @Repository
 public class UserDAO {
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-
-    private Map<String, String> entityToDbMap;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDAO.class);
 
     @Resource(name="template1")
     private JdbcTemplate jdbcTemplate;
@@ -47,6 +47,31 @@ public class UserDAO {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<TUser> listUser() {
+        String sql = "select * from " + getTable();
+        RowMapper<TUser> rowMapper = new BeanPropertyRowMapper<>(TUser.class);
+        try {
+            return jdbcTemplate.query(sql, rowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public int removeUser(long id) {
+        String sql = "delete from " + getTable() + " where `id` = ?";
+        return jdbcTemplate.update(sql, new Object[] {id});
+    }
+
+    public int updateUser(TUser tUser) {
+        String sql = "update " + getTable() + " set `userName` = ?, `role` = ?, `department` = ?, `gmtModify` = ? where `id` = ?";
+        return jdbcTemplate.update(sql, new Object[] {tUser.getUserName(), tUser.getRole(), tUser.getDepartment(), tUser.getGmtModify(), tUser.getId()});
+    }
+
+    public int saveUser(TUser tUser) {
+        String sql = "insert into " + getTable() + " (`userName`, `password`, `role`, `department`, `gmtCreate`) values (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, new Object[]{tUser.getUserName(), tUser.getPassword(), tUser.getRole(), tUser.getDepartment(), tUser.getGmtCreate()});
     }
 
     public int updatePwd(TUser tUser){

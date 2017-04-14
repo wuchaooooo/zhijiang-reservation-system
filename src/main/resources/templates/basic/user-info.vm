@@ -1,0 +1,163 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">用户信息</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="padding-bottom: 20px">
+                用户列表                <button type="button" class="btn btn-sm btn-primary pull-right" onclick="getUser('0')">添加用户</button>
+
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>用户名</th>
+                        <th>角色</th>
+                        <th>部门</th>
+                        <th>创建时间</th>
+                        <th>上次修改时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #set($i = 0)
+                        #foreach($user in $userList)
+                            #set($i = $i + 1)
+                        <tr class="odd gradeX">
+                            <td>$i</td>
+                            <td>$user.userName</td>
+                            <td>
+                                #if($user.role == "admin")
+                                    系统管理员
+                                #elseif($user.role == "collegeLeader")
+                                    学院领导
+                                #elseif($user.role == "departmentLeader")
+                                    部门领导
+                                #elseif($user.role == "departmentPrincipal")
+                                    部门负责人
+                                #elseif($user.role == "applicant")
+                                    场地申请人
+                                #end
+                            </td>
+                            <td>$!user.department</td>
+                            <td>$!date.format("yyyy-MM-dd HH:mm:ss", $user.gmtCreate)</td>
+                            <td>$!date.format("yyyy-MM-dd HH:mm:ss", $user.gmtModify)</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-info" onclick="getUser($user.id)">修改</button>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="removeUser('$user.id')">
+                                    删除
+                                </button>
+                                <button type="button" class="btn btn-sm btn-warning">更改密码</button>
+                            </td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" id="inputForm">
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#dataTables-example').DataTable({
+            responsive: true,
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            }
+        });
+
+    });
+
+    function getUser(id) {
+        $("#inputForm").load(
+                "/users/" + id,
+                function () {
+                    $("#myModal").modal("toggle");
+                }
+        );
+    }
+
+    function saveUser(id) {
+        var type = "PUT";
+        if (id == 0) {
+            type = "POST"
+        }
+        $.ajax({
+            url: "/users/" + id,
+            type: type,
+            cache: false,
+            dataType: 'json',
+            data: $("#submitForm").serialize(),
+            success: function (data) {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert(data.errorMsg);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("发生错误,请稍后重试");
+            }
+        });
+    }
+
+    function removeUser(id) {
+        $.ajax({
+            url: "/users/" + id,
+            type: 'DELETE',
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert(data.errorMsg);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("发生错误,请稍后重试");
+            }
+        });
+    }
+</script>

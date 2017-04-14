@@ -1,6 +1,7 @@
-package com.hzmoyan.service;
+package com.hzmoyan.interceptor;
 
 import com.hzmoyan.javabean.po.TUser;
+import com.hzmoyan.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

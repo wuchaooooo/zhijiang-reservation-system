@@ -1,14 +1,13 @@
 package com.hzmoyan.config;
 
-import com.hzmoyan.service.CustomAuthenticationProvider;
-import com.hzmoyan.service.CustomUserDetailsService;
+import com.hzmoyan.interceptor.CustomAuthenticationProvider;
+import com.hzmoyan.interceptor.CustomUserDetailsService;
+import com.hzmoyan.interceptor.LoginSuccessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,9 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("username")
                     .passwordParameter("password")
                     .loginPage("/login")
-                    .defaultSuccessUrl("/index")
+                    .successHandler(loginSuccessHandler())
                     .failureUrl("/login?error")
                     .permitAll()
+                .and()
+                    .sessionManagement()
+                        //配置同一用户同时允许2个终端登录。当第二个终端尝试登录时，第一个将被挤掉线，然后重新返回登录页面。
+                        .maximumSessions(2).expiredUrl("/login").and()
                 .and()
                     .logout()
                     .deleteCookies("JSESSIONID")
@@ -62,5 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 不删除凭据，以便记住用户
         auth.eraseCredentials(false);
     }
+
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
 
 }

@@ -11,6 +11,7 @@ public class TUser {
 	private String userName;
 	private String password;
 	private String role;
+	private String department;
 	private Date gmtCreate;
 	private Date gmtModify;
 	private Date lastLoginTime;

@@ -19,6 +19,11 @@ public class DateUtils {
         return SIMPLE_FORMAT.format(new Date());
     }
 
+    public static String getSimpleDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat(STANDARD_FORMAT);
+        return dateFormat.format(new Date());
+    }
+
 
     public static String getDateString(Date date, String pattern) {
         return new SimpleDateFormat(pattern).format(date);

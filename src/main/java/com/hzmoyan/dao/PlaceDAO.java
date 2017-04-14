@@ -1,7 +1,6 @@
 package com.hzmoyan.dao;
 
 import com.hzmoyan.javabean.po.TPlace;
-import com.hzmoyan.javabean.po.TUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,7 +18,7 @@ import java.util.List;
 @Repository
 public class PlaceDAO {
 
-    private  final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlaceDAO.class);
 
     @Resource(name="template1")
     private JdbcTemplate jdbcTemplate;
@@ -29,6 +28,16 @@ public class PlaceDAO {
         RowMapper<TPlace> rowMapper = new BeanPropertyRowMapper<>(TPlace.class);
         try {
             return jdbcTemplate.query(sql, rowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public List<TPlace> listPlace(String department) {
+        String sql = "select * from " + getTable() + " where `department` = ?";
+        RowMapper<TPlace> rowMapper = new BeanPropertyRowMapper<>(TPlace.class);
+        try {
+            return jdbcTemplate.query(sql, rowMapper, department);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

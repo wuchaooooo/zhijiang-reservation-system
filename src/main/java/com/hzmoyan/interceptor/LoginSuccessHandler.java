@@ -1,6 +1,11 @@
-package com.hzmoyan.service;
+package com.hzmoyan.interceptor;
 
 import com.hzmoyan.javabean.po.TUser;
+import com.hzmoyan.service.LogService;
+import com.hzmoyan.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
@@ -10,19 +15,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginSuccessHandler.class);
 
-	@Override
+    @Autowired
+    private LogService logService;
+
+    @Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
-		//获得授权后可得到用户信息   可使用SUserService进行数据库操作
-        TUser userDetails = (TUser)authentication.getPrincipal();
-        //输出登录提示信息  
-        System.out.println("管理员 " + userDetails.getUserName() + " 登录");  
-    	
-        System.out.println("IP :"+getIpAddress(request));
+
+        TUser user = (TUser)authentication.getPrincipal();
+        String userName = user.getUserName();
+        String ip = getIpAddress(request);
+        String path = request.getContextPath() ;
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+        LOGGER.info("login success. userName: {}, ip: {}, time:{}", userName, ip, DateUtils.getCurrentTime());
+        logService.saveLog("system", "login", "登录成功", ip);
+        response.sendRedirect(basePath + "index");
+        return;
               
-        super.onAuthenticationSuccess(request, response, authentication);  
+//        super.onAuthenticationSuccess(request, response, authentication);
     }  
     
     public String getIpAddress(HttpServletRequest request){
