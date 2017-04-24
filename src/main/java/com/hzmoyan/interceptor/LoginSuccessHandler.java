@@ -1,7 +1,9 @@
 package com.hzmoyan.interceptor;
 
 import com.hzmoyan.javabean.po.TUser;
+import com.hzmoyan.javabean.vo.VUser;
 import com.hzmoyan.service.LogService;
+import com.hzmoyan.service.UserService;
 import com.hzmoyan.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
     @Autowired
     private LogService logService;
+    @Autowired
+    private UserService userService;
 
     @Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
@@ -33,6 +37,13 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
         LOGGER.info("login success. userName: {}, ip: {}, time:{}", userName, ip, DateUtils.getCurrentTime());
         logService.saveLog("system", "login", "登录成功", ip);
+
+        //将本次登录时间存入数据库t_user表中
+        VUser vUser = new VUser();
+        vUser.setUserName(userName);
+        vUser.setLastLoginTime(DateUtils.getCurrentTime());
+        userService.updateUser(vUser);
+
         response.sendRedirect(basePath + "index");
         return;
               

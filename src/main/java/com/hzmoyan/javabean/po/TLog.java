@@ -9,7 +9,7 @@ import java.util.Date;
  */
 @Data
 public class TLog {
-    private long id;
+    private Long id;
     private String level;
     private String userName;
     private String type;

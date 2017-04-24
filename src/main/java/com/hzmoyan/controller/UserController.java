@@ -32,11 +32,18 @@ public class UserController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public String getUser(
             @PathVariable(value = "userId") long id,
+            @RequestParam(value = "modifypwd", required = false) String flag,
             Map<String, Object> model) {
-        if (id != 0 ){
+        if (id != 0) {
+            //修改用户基本信息（除密码外）
             TUser user = userService.getUser(id);
             model.put("user", user);
-        } else {
+            if (flag != null) {
+                //修改用户密码
+                model.put("onlyPassword", "true");
+            }
+        } else if (id == 0) {
+            //新增用户
             model.put("hasPassword", "true");
         }
         return "basic/user-info-model";

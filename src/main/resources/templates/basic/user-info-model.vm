@@ -9,34 +9,40 @@
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
                 <form id="submitForm">
-                    <div class="form-group">
-                        <label for="userName" class="control-label">用户名:</label>
-                        <input name="userName" type="text" class="form-control" id="userName" value="$!user.userName">
-                    </div>
+                        <div class="form-group" #if($onlyPassword)hidden#end>
+                            <label for="userName" class="control-label">用户名:</label>
+                            <input name="userName" type="text" class="form-control" id="userName" value="$!user.userName">
+                        </div>
                     #if($hasPassword)
                         <div class="form-group">
                             <label for="password" class="control-label">密码:</label>
                             <input name="password" type="password" class="form-control" id="password">
                         </div>
                     #end
-                    <div class="form-group">
-                        <label for="role" class="control-label">角色:</label>
-                        <select id="role" name="role" class="form-control">
-                            <option value="applicant" #if($user.role == "applicant") selected #end>场地申请人</option>
-                            <option value="departmentPrincipal" #if($user.role == "departmentPrincipal") selected #end>
-                                部门负责人
-                            </option>
-                            <option value="departmentLeader" #if($user.role == "departmentLeader") selected #end>部门领导
-                            </option>
-                            <option value="collegeLeader" #if($user.role == "collegeLeader") selected #end>学院领导</option>
-                            <option value="admin" #if($user.role == "admin") selected #end>系统管理员</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">部门:</label>
-                        <input name="department" type="text" class="form-control" id="recipient-name"
-                               value="$!user.department">
-                    </div>
+                    #if($onlyPassword)
+                        <div class="form-group">
+                            <label for="password" class="control-label">新密码:</label>
+                            <input name="password" type="password" class="form-control" id="password">
+                        </div>
+                    #end
+                        <div class="form-group" #if($onlyPassword)hidden#end>
+                            <label for="role" class="control-label">角色:</label>
+                            <select id="role" name="role" class="form-control">
+                                <option value="applicant" #if($user.role == "applicant") selected #end>场地申请人</option>
+                                <option value="departmentPrincipal" #if($user.role == "departmentPrincipal") selected #end>
+                                    部门负责人
+                                </option>
+                                <option value="departmentLeader" #if($user.role == "departmentLeader") selected #end>部门领导
+                                </option>
+                                <option value="collegeLeader" #if($user.role == "collegeLeader") selected #end>学院领导</option>
+                                <option value="admin" #if($user.role == "admin") selected #end>系统管理员</option>
+                            </select>
+                        </div>
+                        <div class="form-group" #if($onlyPassword)hidden#end>
+                            <label for="recipient-name" class="control-label">部门:</label>
+                            <input name="department" type="text" class="form-control" id="recipient-name"
+                                   value="$!user.department">
+                        </div>
                 </form>
             </div>
         </div>

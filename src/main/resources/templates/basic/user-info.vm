@@ -54,7 +54,7 @@
                                 <button type="button" class="btn btn-sm btn-danger" onclick="removeUser('$user.id')">
                                     删除
                                 </button>
-                                <button type="button" class="btn btn-sm btn-warning">更改密码</button>
+                                <button type="button" class="btn btn-sm btn-warning" onclick="getModifyPsw($user.id)">更改密码</button>
                             </td>
                         </tr>
                         #end
@@ -118,6 +118,15 @@
         );
     }
 
+    function getModifyPsw(id) {
+        $("#inputForm").load(
+                "/users/" + id + "?modifypwd=1",
+                function () {
+                    $("#myModal").modal("toggle");
+                }
+        );
+    }
+
     function saveUser(id) {
         var type = "PUT";
         if (id == 0) {
@@ -160,4 +169,14 @@
             }
         });
     }
+
+    function getPwdModel(id) {
+        $("#inputForm").load(
+                "/users/" + id,
+                function () {
+                    $("#myModal").modal("toggle");
+                }
+        );
+    }
+
 </script>

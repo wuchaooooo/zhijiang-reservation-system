@@ -4,8 +4,8 @@ import com.hzmoyan.dao.LogDAO;
 import com.hzmoyan.javabean.po.TLog;
 import com.hzmoyan.javabean.vo.VLog;
 import com.hzmoyan.utils.AuthUtils;
+import com.hzmoyan.utils.BeanUtils;
 import com.hzmoyan.utils.DateUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ public class LogService {
         List<VLog> vLogList = new ArrayList<>();
         for (TLog tLog : tLogList) {
             VLog vLog = new VLog();
-            BeanUtils.copyProperties(tLog, vLog);
+            BeanUtils.copyPropertiesIgnoreNull(tLog, vLog);
             vLogList.add(vLog);
         }
         return vLogList;

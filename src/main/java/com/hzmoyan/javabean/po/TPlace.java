@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class TPlace {
-    private long id;
+    private Long id;
     private String placeName;
     private String department;
     private String principal;

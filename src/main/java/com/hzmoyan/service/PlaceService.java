@@ -3,7 +3,7 @@ package com.hzmoyan.service;
 import com.hzmoyan.dao.PlaceDAO;
 import com.hzmoyan.javabean.po.TPlace;
 import com.hzmoyan.javabean.vo.VPlace;
-import org.springframework.beans.BeanUtils;
+import com.hzmoyan.utils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class PlaceService {
         List<VPlace> vPlaceList = new ArrayList<>();
         for (TPlace tPlace : tPlaceList) {
             VPlace vPlace = new VPlace();
-            BeanUtils.copyProperties(tPlace, vPlace);
+            BeanUtils.copyPropertiesIgnoreNull(tPlace, vPlace);
             vPlaceList.add(vPlace);
         }
         return vPlaceList;

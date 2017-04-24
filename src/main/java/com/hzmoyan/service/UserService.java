@@ -3,9 +3,9 @@ package com.hzmoyan.service;
 import com.hzmoyan.dao.UserDAO;
 import com.hzmoyan.javabean.po.TUser;
 import com.hzmoyan.javabean.vo.VUser;
+import com.hzmoyan.utils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,9 +45,18 @@ public class UserService {
     }
 
     public int updateUser(VUser vUser) {
-        TUser tUser = userDAO.getUser(vUser.getId());
+        TUser tUser = null;
+        if (vUser.getId() != null) {
+            tUser = userDAO.getUser(vUser.getId());
+        } else if (vUser.getId() == null && vUser.getUserName() != null) {
+            tUser = userDAO.getUser(vUser.getUserName());
+        }
         tUser.setGmtModify(new Date());
-        BeanUtils.copyProperties(vUser, tUser);
+        if (vUser.getPassword() != null) {
+            String password = passwordEncoder.encode(vUser.getPassword());
+            vUser.setPassword(password);
+        }
+        BeanUtils.copyPropertiesIgnoreNull(vUser, tUser);
         return userDAO.updateUser(tUser);
     }
 
@@ -60,7 +69,7 @@ public class UserService {
         String password = passwordEncoder.encode(vUser.getPassword());
         vUser.setPassword(password);
         TUser tUser = new TUser();
-        BeanUtils.copyProperties(vUser, tUser);
+        BeanUtils.copyPropertiesIgnoreNull(vUser, tUser);
         tUser.setGmtCreate(new Date());
         return userDAO.saveUser(tUser);
     }
