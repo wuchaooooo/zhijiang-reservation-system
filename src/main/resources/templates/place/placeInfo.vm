@@ -33,7 +33,7 @@
                             <td class="center">$place.principal</td>
                             <td class="center">$place.mobile</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary">借用情况</button>
+                                <a type="button" class="btn btn-sm btn-primary" href="/reservations/index.html?placename=$place.placeName" target="_blank">借用情况</a>
                             </td>
                         </tr>
                         #end
@@ -79,4 +79,8 @@
             }
         });
     });
+
+    function reservationDetail(placeName) {
+
+    }
 </script>

@@ -1,0 +1,78 @@
+<link href="/vendor/full-calendar/fullcalendar.min.css" rel="stylesheet">
+<script src="/vendor/full-calendar/moment.min.js"></script>
+<script src="/vendor/full-calendar/jquery-ui.min.js"></script>
+<script src="/vendor/full-calendar/fullcalendar.min.js"></script>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">${placeName} 借用情况</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="calendar" style="margin-top: 20px"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            defaultview: 'agenda',
+            header: {
+                left: 'month,agendaWeek,agendaDay',
+                center: 'title',
+                right: 'today, prev, next'
+            },
+            monthNames: ["一月", "二月", "三月", "四月", 　//设置月份名称，中英文均可
+                "五月", "六月", "七月", "八月", "九月",
+                "十月", "十一月", "十二月"
+            ],
+            monthNamesShort: ["一月", "二月", "三月", 　　//设置月份的简称
+                "四月", "五月", "六月", "七月", "八月",
+                "九月", "十月", "十一月", "十二月"
+            ],
+            dayNames: ["周日", "周一", "周二", "周三", 　　//设置星期名称
+                "周四", "周五", "周六"
+            ],
+            dayNamesShort: ["周日", "周一", "周二", 　　　　//设置星期简称
+                "周三", "周四", "周五", "周六"
+            ],
+            today: ["今天"], 　　　　　　　　　　　　　　　　//today 按钮的显示名称
+            firstDay: 0, 　　　　　　　　　　　　　　　　　　//设置每星期的第一天是星期几，0 是星期日
+            buttonText: { 　　　　　　　　　　　　　　　　　//设置按钮文本
+                today: '今天',
+                month: '月',
+                week: '周',
+                day: '日',
+                prev: '<<',
+                next: '>>'
+            },
+            allDaySlot:false,
+            dayClick: function(date, allDay, jsEvent, view) {
+                alert("hello");
+            },
+            eventClick: function () {
+
+            },
+            //获取event数据
+            events: {
+                url: '/reservations',
+                type: 'GET',
+                data: {
+                    placename: '$placeName'
+                },
+                error: function() {
+                    alert('there was an error while fetching events!');
+                },
+                color: 'yellow',   // a non-ajax option
+                textColor: 'black', // a non-ajax option
+            },
+            //设置event显示为24小时制
+            timeFormat: 'H(:mm)'
+        })
+
+    });
+</script>
+

@@ -13,11 +13,15 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping(value = "")
 public class IndexController {
 
 	@Autowired
 	private UserService userService;
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+    public String toLogin() {
+                return "redirect:/login";
+    }
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(
@@ -36,5 +40,4 @@ public class IndexController {
         model.put("user", tUser);
         return "index";
     }
-
 }
