@@ -42,7 +42,15 @@
             #end
             #if($role == "ROLE_APPLICANT")
                 <li>
-                    <a href="/index"><i class="fa fa-edit fa-fw"></i> 场地申请</a>
+                    <a href="#"><i class="fa fa-edit fa-fw"></i> 场地申请<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/places"><i class="fa fa-calendar fa-fw"></i> 新建申请</a>
+                        </li>
+                        <li>
+                            <a href="morris.html"><i class="fa fa-bookmark fa-fw"></i> 我的申请</a>
+                        </li>
+                    </ul>
                 </li>
             #end
             #if($role == "ROLE_DEPARTMENTLEADER" || $role == "ROLE_DEPARTMENTPRINCIPAL")

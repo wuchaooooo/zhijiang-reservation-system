@@ -1,7 +1,8 @@
 <link href="/vendor/full-calendar/fullcalendar.min.css" rel="stylesheet">
+<link href="/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <script src="/vendor/full-calendar/moment.min.js"></script>
-<script src="/vendor/full-calendar/jquery-ui.min.js"></script>
 <script src="/vendor/full-calendar/fullcalendar.min.js"></script>
+
 
 
 <div class="row">
@@ -11,8 +12,29 @@
     <!-- /.col-lg-12 -->
 </div>
 <div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
-        <div id="calendar" style="margin-top: 20px"></div>
+    <div class="col-lg-3">
+        <div class="alert alert-success" role="alert">
+            1. 点击日历图中的空白处填写借用信息<br><br>
+            2. 蓝色块状表示已经被借用的时间段<br><br>
+            3. 点击日历图的左上角，切换 < 月, 周, 日 >
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">日历图</h3>
+            </div>
+            <div class="panel-body">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" id="inputForm">
     </div>
 </div>
 
@@ -49,9 +71,14 @@
                 prev: '<<',
                 next: '>>'
             },
-            allDaySlot:false,
-            dayClick: function(date, allDay, jsEvent, view) {
-                alert("hello");
+            allDaySlot: false,
+            dayClick: function (date, allDay, jsEvent, view) {
+                $("#inputForm").load(
+                        "/reservations/model?placename=$placeName",
+                        function () {
+                            $("#myModal").modal("toggle");
+                        }
+                );
             },
             eventClick: function () {
 
@@ -63,16 +90,44 @@
                 data: {
                     placename: '$placeName'
                 },
-                error: function() {
-                    alert('there was an error while fetching events!');
+                error: function () {
+                    alert('there was an error while fetching events!!!!!!!!');
                 },
-                color: 'yellow',   // a non-ajax option
-                textColor: 'black', // a non-ajax option
+                color: 'light blue',
+                textColor: 'black'
             },
             //设置event显示为24小时制
             timeFormat: 'H(:mm)'
         })
 
     });
+
+    function saveReservation() {
+//        var placeName = $("#placeName").val();
+//        var applicant = $("#applicant").val();
+//        var startTime = $("#startTime").val();
+//        var endTime = $("#endTime").val();
+//        var title = $("#title").val();
+//        var userName = $("#userName").val();
+//        var mobile = $("#mobile").val();
+        $.ajax({
+            url: '/reservations',
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            data: $("#submitForm").serialize(),
+            success: function (data) {
+                if (data.success) {
+                    alert(data.successMsg);
+                    window.location.reload();
+                } else {
+                    alert(data.errorMsg);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("发生错误,请稍后重试");
+            }
+        });
+    }
 </script>
 

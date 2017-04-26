@@ -11,6 +11,7 @@ import java.util.Date;
 public class TReservation {
     private Long id;
     private String placeName;
+    private String placeDepartment;
     private String title;
     private Date startTime;
     private Date endTime;

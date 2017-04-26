@@ -1,0 +1,55 @@
+#set($layout='layout/blank.vm')
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">场地申请</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+                <form id="submitForm">
+                    <input name="placeName" value="$placeName" id="placeName" hidden>
+                    <input name="applicant" value="$authUtils.getAuthUser().userName" id="applicant" hidden>
+                    <div class="form-group">
+                        <label for="startTime" class="control-label">开始时间</label>
+                        <input name="startTime" size="16" type="text" readonly class="form-control form_datetime"
+                               placeholder="请点击" id="startTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime" class="control-label">结束时间</label>
+                        <input name="endTime" size="16" type="text" readonly class="form-control form_datetime"
+                               placeholder="请点击" id="endTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="control-label">用途描述:</label>
+                        <input name="title" type="text" class="form-control" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="userName" class="control-label">联系人:</label>
+                        <input name="userName" type="text" class="form-control" id="userName">
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile" class="control-label">联系方式:</label>
+                        <input name="mobile" type="text" class="form-control" id="mobile">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="saveReservation()">保存</button>
+    </div>
+</div>
+
+<script src="/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({
+        language: 'zh-CN',
+        autoclose: true,
+        todayHighlight: true,
+        format: 'yyyy-mm-dd hh:ii'
+    });
+</script>

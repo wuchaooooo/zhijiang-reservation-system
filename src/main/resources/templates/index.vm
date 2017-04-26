@@ -1,12 +1,15 @@
+#set($role = $authUtils.getAuthUserRole())
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">${authUtils.getAuthUser().userName} 你好！欢迎使用预约系统</h1>
-        </div>
-        <!-- /.col-lg-12 -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">${authUtils.getAuthUser().userName} 你好！欢迎使用预约系统</h1>
     </div>
-    <!-- /.row -->
-    <div class="row">
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+
+    #if($role == "ROLE_DEPARTMENTPRINCIPAL" || $role == "ROLE_DEPARTMENTLEADER")
         <div class="col-lg-4 col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -20,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="javascript:waitCheck()">
                     <div class="panel-footer">
                         <span class="pull-left">查看详情</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -29,7 +32,9 @@
                 </a>
             </div>
         </div>
+    #end
 
+    #if($role == "ROLE_DEPARTMENTPRINCIPAL" || $role == "ROLE_DEPARTMENTLEADER" || $role == "ROLE_ADMIN")
         <div class="col-lg-4 col-md-6">
             <div class="panel panel-green">
                 <div class="panel-heading">
@@ -52,6 +57,9 @@
                 </a>
             </div>
         </div>
+    #end
+
+    #if($role == "ROLE_DEPARTMENTPRINCIPAL" || $role == "ROLE_DEPARTMENTLEADER" || $role == "ROLE_ADMIN")
         <div class="col-lg-4 col-md-6">
             <div class="panel panel-yellow">
                 <div class="panel-heading">
@@ -74,22 +82,27 @@
                 </a>
             </div>
         </div>
-    </div>
-    <!-- /.row -->
+    #end
+</div>
+<!-- /.row -->
 
-    <!-- load属于该部门的场地／所有场地列表 -->
-    <div id="placeList">
+<!-- load属于该部门的场地／所有场地列表 -->
+<div id="placeList">
 
-    </div>
+</div>
 
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-        function allPlaceInfo() {
-            $("#placeList").load("/places");
-        }
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    function allPlaceInfo() {
+        $("#placeList").load("/places");
+    }
 
-        function departmentPlaceInfo() {
-            $("#placeList").load("/places?department=${authUtils.getAuthUser().department}");
-        }
-    </script>
+    function departmentPlaceInfo() {
+        $("#placeList").load("/places?department=${authUtils.getAuthUser().department}");
+    }
+
+    function waitCheck() {
+        $("#placeList").load("/reservations/checks");
+    }
+</script>

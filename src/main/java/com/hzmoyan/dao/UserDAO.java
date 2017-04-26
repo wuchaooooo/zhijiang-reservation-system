@@ -65,17 +65,20 @@ public class UserDAO {
     }
 
     public int updateUser(TUser tUser) {
-        if (tUser.getPassword() == null && tUser.getLastLoginTime() == null) {
-            String sql = "update " + getTable() + " set `userName` = ?, `role` = ?, `department` = ?, `gmtModify` = ? where `id` = ?";
-            return jdbcTemplate.update(sql, new Object[] {tUser.getUserName(), tUser.getRole(), tUser.getDepartment(), tUser.getGmtModify(), tUser.getId()});
-        } else if (tUser.getLastLoginTime() != null) {
-            String sql = "update " + getTable() + " set `userName` = ?, `role` = ?, `department` = ?, `gmtModify` = ?, `lastLoginTime` = ? where `id` = ?";
-            return jdbcTemplate.update(sql, new Object[] {tUser.getUserName(), tUser.getRole(), tUser.getDepartment(), tUser.getGmtModify(), tUser.getLastLoginTime(), tUser.getId()});
-        } else if (tUser.getPassword() != null) {
-            String sql = "update " + getTable() + " set `password` = ?, `gmtModify` = ? where `id` = ?";
-            return jdbcTemplate.update(sql, new Object[] {tUser.getPassword(), tUser.getGmtModify(), tUser.getId()});
-        }
-        return 0;
+        String sql = "update " + getTable() + " set `userName` = ?, `password` = ?, `role` = ?, `department` = ?, `gmtModify` = ? where `id` = ?";
+        return jdbcTemplate.update(sql, new Object[] {tUser.getUserName(), tUser.getPassword(), tUser.getRole(), tUser.getDepartment(), tUser.getGmtModify(), tUser.getId()});
+
+//        if (tUser.getPassword() == null && tUser.getLastLoginTime() == null) {
+//            String sql = "update " + getTable() + " set `userName` = ?, `role` = ?, `department` = ?, `gmtModify` = ? where `id` = ?";
+//            return jdbcTemplate.update(sql, new Object[] {tUser.getUserName(), tUser.getRole(), tUser.getDepartment(), tUser.getGmtModify(), tUser.getId()});
+//        } else if (tUser.getLastLoginTime() != null) {
+//            String sql = "update " + getTable() + " set `userName` = ?, `role` = ?, `department` = ?, `gmtModify` = ?, `lastLoginTime` = ? where `id` = ?";
+//            return jdbcTemplate.update(sql, new Object[] {tUser.getUserName(), tUser.getRole(), tUser.getDepartment(), tUser.getGmtModify(), tUser.getLastLoginTime(), tUser.getId()});
+//        } else if (tUser.getPassword() != null) {
+//            String sql = "update " + getTable() + " set `password` = ?, `gmtModify` = ? where `id` = ?";
+//            return jdbcTemplate.update(sql, new Object[] {tUser.getPassword(), tUser.getGmtModify(), tUser.getId()});
+//        }
+//        return 0;
     }
 
     public int saveUser(TUser tUser) {
